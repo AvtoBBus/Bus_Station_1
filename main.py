@@ -23,6 +23,12 @@ def Search_Images(Limit_of_find):
         first_response = requests.get(first_url, headers=headers)
         first_soup = BeautifulSoup(first_response.content, 'html.parser')
 
+        for tos in range(1, 61, 1):
+            time.sleep(1)
+            os.system('cls')
+            print('=' * tos)
+            print("\n\nLoading", tos)
+
         second_response = requests.get(second_url, headers=headers)
         second_soup = BeautifulSoup(second_response.content, 'html.parser')
 
@@ -31,15 +37,8 @@ def Search_Images(Limit_of_find):
 
         for link in first_soup.find_all("img"):
             first_list_of_src.append(link.get("src"))
-
         for link in second_soup.find_all("img"):
             second_list_of_src.append(link.get("src"))
-
-        for tos in range(1, 61, 1):
-            time.sleep(1)
-            os.system('cls')
-            print('=' * tos)
-            print("\n\nLoading")
 
         Save_Images_With_Zebra(first_list_of_src, i)
         i = Save_Images_With_Bay_Horse(second_list_of_src, Limit_of_find, i)
@@ -48,10 +47,10 @@ def Save_Images_With_Zebra(list_of_src, i):
     os.system('cls')
     print("\tSave zebra")
     index = i
-    for list in list_of_src:
-        if list.find("n=13") != -1:
+    for url in list_of_src:
+        if url.find("n=13") != -1:
             try:
-                link = "https:" + list
+                link = "https:" + url
                 img = requests.get(link)
                 name_of_file = str(index)
                 name_of_file = "dataset/zebra/" + name_of_file.zfill(4) + ".jpg"
@@ -62,17 +61,20 @@ def Save_Images_With_Zebra(list_of_src, i):
                 print("Save ", str(index).zfill(4))
             except:
                 print("Error after ", index)
+            link_option = open("dataset/zebra/zebra_link.txt", "a")
+            link_option.write(url + "\n")
+            link_option.close()
 
 def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
     os.system('cls')
     print("\tSave bay horse")
-    for list in list_of_src:
-        if list.find("n=13") != -1:
+    for url in list_of_src:
+        if url.find("n=13") != -1:
             try:
-                link = "https:" + list
+                link = "https:" + url
                 img = requests.get(link)
                 name_of_file = str(i)
-                name_of_file = "dataset/bay horse/" + name_of_file.zfill(4) + ".jpg"
+                name_of_file = "dataset/bay_horse/" + name_of_file.zfill(4) + ".jpg"
                 img_option = open(name_of_file, "wb")
                 img_option.write(img.content)
                 img_option.close()
@@ -80,6 +82,9 @@ def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
                 print("Save ", str(i).zfill(4))
             except:
                 print("Error after ", i)
+            link_option = open("dataset/bay_horse/bay_horse_link.txt", "a")
+            link_option.write(url + "\n")
+            link_option.close()
             if i == Limit_of_find:
                 Finish()
     return i
@@ -89,10 +94,11 @@ def Finish():
     exit(0)
 
 def main():
-    os.mkdir("dataset")
-    os.mkdir("dataset/zebra")
-    os.mkdir("dataset/bay horse")
-    Limit_of_find = 1100
+    if not os.path.isdir("dataset"):
+        os.mkdir("dataset")
+        os.mkdir("dataset/zebra")
+        os.mkdir("dataset/bay_horse")
+    Limit_of_find = 1050
     Search_Images(Limit_of_find)
 
 if __name__ == '__main__':
