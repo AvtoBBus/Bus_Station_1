@@ -94,6 +94,7 @@ def Finish():
     exit(0)
 
 def main():
+    print("Hello!")
     if not os.path.isdir("dataset"):
         os.mkdir("dataset")
         os.mkdir("dataset/zebra")
