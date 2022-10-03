@@ -13,7 +13,7 @@ def write_in_file(name_class, number):
         printer.writerow( [create_absolute_way(name_class, number), create_relative_way(name_class, number), name_class] )
 
 def main():
-    with open("dataset/dataset.csv", "w") as file:
+    with open("dataset.csv", "w") as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow( ["The Absolute Way", "Relative Way", "Class"] )
     for number in range(0, 1050):
