@@ -8,7 +8,7 @@ def create_relative_way(name_class, number):
     return f"dataset/{name_class}/{str(number).zfill(4)}.jpg"
 
 def write_in_file(name_class, number):
-    with open ("dataset/dataset.csv", "a") as file:
+    with open ("dataset.csv", "a") as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow( [create_absolute_way(name_class, number), create_relative_way(name_class, number), name_class] )
 
