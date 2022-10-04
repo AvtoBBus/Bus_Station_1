@@ -90,6 +90,7 @@ def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
     return i
 
 def Finish():
+    print("Hello!")
     print("\nProgram has finished!\n")
     exit(0)
 
