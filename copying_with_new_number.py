@@ -10,7 +10,7 @@ def create_relative_way(name_class, number):
 
 def create_annotation(name_class, number):
     with open ("dataset_number.csv", "a", newline='') as file:
-        printer = csv.writer(file, delimiter=";", newline = '')
+        printer = csv.writer(file, delimiter=";")
         printer.writerow( [create_absolute_way(name_class, number), create_relative_way(name_class, number), name_class] )
 
 def create_new_way(number):
