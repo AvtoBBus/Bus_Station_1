@@ -8,6 +8,7 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
 }
 
+
 def Search_Images(Limit_of_find):
     num_page = 0
     i = 0
@@ -43,6 +44,7 @@ def Search_Images(Limit_of_find):
         Save_Images_With_Zebra(first_list_of_src, i)
         i = Save_Images_With_Bay_Horse(second_list_of_src, Limit_of_find, i)
 
+
 def Save_Images_With_Zebra(list_of_src, i):
     os.system('cls')
     print("\tSave zebra")
@@ -53,7 +55,8 @@ def Save_Images_With_Zebra(list_of_src, i):
                 link = "https:" + url
                 img = requests.get(link)
                 name_of_file = str(index)
-                name_of_file = "dataset/zebra/" + name_of_file.zfill(4) + ".jpg"
+                name_of_file = "dataset/zebra/" + \
+                    name_of_file.zfill(4) + ".jpg"
                 img_option = open(name_of_file, "wb")
                 img_option.write(img.content)
                 img_option.close()
@@ -65,6 +68,7 @@ def Save_Images_With_Zebra(list_of_src, i):
             link_option.write(url + "\n")
             link_option.close()
 
+
 def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
     os.system('cls')
     print("\tSave bay horse")
@@ -74,7 +78,8 @@ def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
                 link = "https:" + url
                 img = requests.get(link)
                 name_of_file = str(i)
-                name_of_file = "dataset/bay_horse/" + name_of_file.zfill(4) + ".jpg"
+                name_of_file = "dataset/bay_horse/" + \
+                    name_of_file.zfill(4) + ".jpg"
                 img_option = open(name_of_file, "wb")
                 img_option.write(img.content)
                 img_option.close()
@@ -89,9 +94,11 @@ def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
                 Finish()
     return i
 
+
 def Finish():
     print("\nProgram has finished!\n")
     exit(0)
+
 
 def main():
     if not os.path.isdir("dataset"):
@@ -100,6 +107,7 @@ def main():
         os.mkdir("dataset/bay_horse")
     Limit_of_find = 1050
     Search_Images(Limit_of_find)
+
 
 if __name__ == '__main__':
     main()

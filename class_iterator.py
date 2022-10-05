@@ -1,10 +1,11 @@
 import os
 
+
 class Iterator:
-    
-    def __init__(self, start = 0):
+
+    def __init__(self, start=0):
         self.num = start
-    
+
     def __iter__(self):
         return self
 
