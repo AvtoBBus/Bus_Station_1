@@ -2,12 +2,15 @@ from lib2to3.pgen2.token import NEWLINE
 import os
 import csv
 
+'''возвращает абослютный путь'''
 def create_absolute_way(name_class, number):
     return f"C:/Users/miste/PycharmProjects/pythonProject2/dataset/{name_class}/{str(number).zfill(4)}.jpg"
  
+'''возвращает относительный путь'''
 def create_relative_way(name_class, number):
     return f"dataset/{name_class}/{str(number).zfill(4)}.jpg"
 
+'''записывает в файл'''
 def write_in_file(name_class, number):
     with open ("dataset.csv", "a", newline='') as file:
         printer = csv.writer(file, delimiter=";")
