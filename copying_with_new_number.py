@@ -9,8 +9,8 @@ def create_relative_way(name_class, number):
     return f"dataset/{name_class}/{str(number).zfill(4)}.jpg"
 
 def create_annotation(name_class, number):
-    with open ("dataset_number.csv", "a") as file:
-        printer = csv.writer(file, delimiter=";")
+    with open ("dataset_number.csv", "a", newline='') as file:
+        printer = csv.writer(file, delimiter=";", newline = '')
         printer.writerow( [create_absolute_way(name_class, number), create_relative_way(name_class, number), name_class] )
 
 def create_new_way(number):
@@ -27,7 +27,7 @@ def main():
     if not os.path.isdir("dataset/dataset_number"):
         os.mkdir("dataset/dataset_number")
     
-    with open ("dataset_number.csv", "w") as file:
+    with open ("dataset_number.csv", "w", newline='') as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow(["The Absolute Way", "Relative Way", "Class"])
     
