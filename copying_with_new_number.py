@@ -43,8 +43,8 @@ def main():
         printer = csv.writer(file, delimiter=";")
         printer.writerow(["The Absolute Way", "Relative Way", "Class"])
 
-    create("zebra")
-    create("bay_horse")
+    copy_with_new_number("zebra")
+    copy_with_new_number("bay_horse")
 
 
 if __name__ == "__main__":
