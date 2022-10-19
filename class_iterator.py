@@ -1,6 +1,3 @@
-import os
-
-
 class Iterator:
 
     def __init__(self, start=0):
