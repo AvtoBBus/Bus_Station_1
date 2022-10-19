@@ -26,7 +26,7 @@ def create_copy(name_class):
         way = f"dataset/download_data/{name_class}/{str(iter.num).zfill(4)}.jpg"
         if os.path.isfile(way):
             shutil.copyfile(
-                way, get_way.create_another_way(name_class, iter.num))
+                way, get_way.create_absolute_way(name_class, iter.num, "another"))
         create_annotation(name_class, iter.num)
         next(iter)
 
