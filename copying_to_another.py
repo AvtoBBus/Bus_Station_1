@@ -1,34 +1,34 @@
 import os
 import csv
 import shutil
-from class_iterator import Iterator
+from iterator import Iterator
 import get_way
 
-'''создаёт аннотацию'''
 
-
-def create_annotation(name_class, number):
+def create_annotation(elem, name_class, number) -> None:
+    '''
+    создаёт аннотацию
+    '''
     with open("dataset_another.csv", "a", newline='', encoding='utf8') as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow(
-            [get_way.create_absolute_way(name_class, number, "another"),
+            [str(elem),
              get_way.create_another_relative_way(name_class, number),
              name_class]
         )
 
 
-'''создаёт копии'''
-
-
-def create_copy(name_class):
-    iter = Iterator()
-    while iter.num != 1050:
-        way = f"dataset/download_data/{name_class}/{str(iter.num).zfill(4)}.jpg"
-        if os.path.isfile(way):
-            shutil.copyfile(
-                way, get_way.create_absolute_way(name_class, iter.num, "another"))
-        create_annotation(name_class, iter.num)
-        next(iter)
+def create_copy(name_class) -> None:
+    '''
+    создаёт копии
+    '''
+    iterat = Iterator("dataset.csv", name_class)
+    for elem in iterat:
+        if elem != None:
+            if os.path.isfile(str(elem)):
+                shutil.copyfile(
+                    str(elem), get_way.create_another_relative_way(name_class, iterat.counter))
+            create_annotation(elem, name_class, iterat.counter)
 
 
 def main():
