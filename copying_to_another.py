@@ -5,20 +5,20 @@ from iterator import Iterator
 import get_way
 
 
-def create_annotation(elem, name_class, number) -> None:
+def create_annotation(name_class: str, number: int) -> None:
     '''
     создаёт аннотацию
     '''
     with open("dataset_another.csv", "a", newline='', encoding='utf8') as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow(
-            [str(elem),
+            [os.path.abspath(get_way.create_another_relative_way(name_class, number)),
              get_way.create_another_relative_way(name_class, number),
              name_class]
         )
 
 
-def create_copy(name_class) -> None:
+def create_copy(name_class: str) -> None:
     '''
     создаёт копии
     '''
@@ -28,7 +28,7 @@ def create_copy(name_class) -> None:
             if os.path.isfile(str(elem)):
                 shutil.copyfile(
                     str(elem), get_way.create_another_relative_way(name_class, iterat.counter))
-            create_annotation(elem, name_class, iterat.counter)
+            create_annotation(name_class, iterat.counter)
 
 
 def main():
