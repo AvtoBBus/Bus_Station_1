@@ -7,7 +7,7 @@ import get_way
 
 def create_annotation(name_class: str, number: int) -> None:
     '''
-    создаёт аннотацию
+    создаёт csv файл-аннотацию(абсолютный путь/относительный путь/тег класса)
     '''
     with open("dataset_another.csv", "a", newline='', encoding='utf8') as file:
         printer = csv.writer(file, delimiter=";")
@@ -20,7 +20,7 @@ def create_annotation(name_class: str, number: int) -> None:
 
 def create_copy(name_class: str) -> None:
     '''
-    создаёт копии
+    создаёт копии в новой папке
     '''
     iterat = Iterator("dataset.csv", name_class)
     for elem in iterat:

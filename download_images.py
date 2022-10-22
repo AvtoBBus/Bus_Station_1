@@ -9,7 +9,7 @@ headers = {
 }
 
 
-def Search_Images(Limit_of_find):
+def Search_Images(Limit_of_find: int) -> None:
     num_page = 0
     i = 0
     os.system('cls')
@@ -45,7 +45,7 @@ def Search_Images(Limit_of_find):
         i = Save_Images_With_Bay_Horse(second_list_of_src, Limit_of_find, i)
 
 
-def Save_Images_With_Zebra(list_of_src, i):
+def Save_Images_With_Zebra(list_of_src: str, i: int) -> None:
     os.system('cls')
     print("\tSave zebra")
     index = i
@@ -69,7 +69,7 @@ def Save_Images_With_Zebra(list_of_src, i):
             link_option.close()
 
 
-def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
+def Save_Images_With_Bay_Horse(list_of_src: str, Limit_of_find: int, i: int) -> int:
     os.system('cls')
     print("\tSave bay horse")
     for url in list_of_src:
@@ -95,12 +95,12 @@ def Save_Images_With_Bay_Horse(list_of_src, Limit_of_find, i):
     return i
 
 
-def Finish():
+def Finish() -> None:
     print("\nProgram has finished!\n")
     exit(0)
 
 
-def main():
+def main() -> None:
     if not os.path.isdir("dataset"):
         os.mkdir("dataset")
         os.mkdir("dataset/zebra")

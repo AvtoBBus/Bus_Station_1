@@ -3,10 +3,11 @@ import csv
 from iterator import Iterator
 import get_way
 
-'''записывает в файл'''
-
 
 def write_in_file(name_class: str, number: int) -> None:
+    '''
+    запись в csv-файл(абсолютный путь/относительный путь/тег класса)
+    '''
     with open("dataset.csv", "a", newline='', encoding='utf8') as file:
         printer = csv.writer(file, delimiter=";")
         printer.writerow(
@@ -17,6 +18,10 @@ def write_in_file(name_class: str, number: int) -> None:
 
 
 def main():
+    '''
+    создание csv-файла
+    поочерёдная запись в файл-аннотацию из папки download_data
+    '''
     with open("dataset.csv", "w", newline='') as file:
         printer = csv.writer(file, delimiter=";", )
         printer.writerow(["The Absolute Way", "Relative Way", "Class"])

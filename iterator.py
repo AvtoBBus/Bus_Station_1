@@ -3,7 +3,7 @@ import re
 
 
 class Iterator:
-    def __init__(self, way_to_csv_file, name_class):
+    def __init__(self, way_to_csv_file: str, name_class: str):
         self.name_class = name_class
         self.list = []
         self.way_to_file = way_to_csv_file
@@ -18,7 +18,7 @@ class Iterator:
     def __iter__(self):
         return self
 
-    def __next__(self):
+    def __next__(self) -> str:
         if self.counter < len(self.list):
             abs_way = re.split(";", str(self.list[self.counter]))
             self.counter += 1
