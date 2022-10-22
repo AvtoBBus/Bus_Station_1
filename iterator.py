@@ -3,10 +3,10 @@ import re
 
 
 class Iterator:
-    def __init__(self, way_to_file, name_class):
+    def __init__(self, way_to_csv_file, name_class):
         self.name_class = name_class
         self.list = []
-        self.way_to_file = way_to_file
+        self.way_to_file = way_to_csv_file
         self.counter = 0
 
         file = open(
