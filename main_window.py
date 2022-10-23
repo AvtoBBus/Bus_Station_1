@@ -1,6 +1,8 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
+import copying_to_another
+import copying_with_new_number
 
 
 class Window(QMainWindow):
@@ -18,7 +20,7 @@ class Window(QMainWindow):
         self.button_create_another.adjustSize()
 
         self.button_create_with_new_number = QtWidgets.QPushButton(self)
-        self.button_create_with_new_number.move(30, 80)
+        self.button_create_with_new_number.move(30, 75)
         self.button_create_with_new_number.setText(
             "Создать копию dataset со случайными номерами")
         self.button_create_with_new_number.adjustSize()
@@ -28,12 +30,16 @@ class Window(QMainWindow):
         self.button_create_another.clicked.connect(self.create_another)
 
     def create_another(self):
-        self.new_text.setText("another")
+        self.new_text.setText("Start create another dataset")
         self.new_text.adjustSize()
+        copying_to_another.main()
+        self.new_text.setText("Finish!")
 
     def create_new_number(self):
-        self.new_text.setText("number")
+        self.new_text.setText("Start create dataset with random numbers")
         self.new_text.adjustSize()
+        copying_with_new_number.main()
+        self.new_text.setText("Finish!")
 
 
 def application():
