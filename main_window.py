@@ -16,7 +16,7 @@ class Window(QMainWindow):
         super(Window, self).__init__()
         self.iterat_zebra = iterator.Iterator("dataset.csv", "zebra")
         self.iterat_bay_horse = iterator.Iterator("dataset.csv", "bay_horse")
-        self.folderpath = QtWidgets.QFileDialog.getExistingDirectory(
+        self.folderpath_dataset = QtWidgets.QFileDialog.getExistingDirectory(
             self, 'Please select folder of dataset')
 
         self.font_in_label = QFont("Times", 12, QFont.Bold)
@@ -27,6 +27,9 @@ class Window(QMainWindow):
         self.label_img_bay_horse = QLabel(self)
         self.label_img_zebra.setFixedSize(500, 400)
         self.label_img_bay_horse.setFixedSize(500, 400)
+
+        self.info_text_label = QLabel(self)
+        self.info_text_label.setFont(self.font_in_label)
 
         self.setWindowTitle("Лапка")
         self.setFixedSize(1280, 720)
@@ -88,6 +91,7 @@ class Window(QMainWindow):
             self.create_new_number)
 
     def next_zebra(self) -> None:
+        self.info_text_label.clear()
         self.elem = next(self.iterat_zebra)
         while self.elem == None:
             self.elem = next(self.iterat_zebra)
@@ -99,6 +103,7 @@ class Window(QMainWindow):
             self.label_img_zebra.show()
 
     def next_bay_horse(self) -> None:
+        self.info_text_label.clear()
         self.elem = next(self.iterat_bay_horse)
         while self.elem == None:
             self.elem = next(self.iterat_bay_horse)
@@ -110,17 +115,20 @@ class Window(QMainWindow):
             self.label_img_bay_horse.show()
 
     def create_annotation(self):
-        create_csv.main(self.folderpath)
+        create_csv.main(self.folderpath_dataset)
 
     def create_another(self):
         copying_to_another.main()
-        self.new_text.setText("Finish create another dataset!")
-        self.new_text.move(0, 695)
+        self.info_text_label.setText("Finish create another dataset!")
+        self.info_text_label.move(0, 695)
+        self.info_text_label.adjustSize()
 
     def create_new_number(self):
         copying_with_new_number.main()
-        self.new_text.setText("Finish create dataset with random numbers!")
-        self.new_text.adjustSize()
+        self.info_text_label.setText(
+            "Finish create dataset with random numbers!")
+        self.info_text_label.move(0, 695)
+        self.info_text_label.adjustSize()
 
 
 def application():
