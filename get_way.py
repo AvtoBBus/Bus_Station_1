@@ -1,6 +1,3 @@
-import os
-
-
 def create_download_relative_way(name_class: str, number: int) -> str:
     return f"dataset/download_data/{name_class}/{str(number).zfill(4)}.jpg"
 

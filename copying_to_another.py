@@ -19,9 +19,11 @@ def create_annotation(name_class: str, number: int) -> None:
 
 
 def create_copy_of_dataset(name_class: str) -> None:
-    '''
-    создаёт копии в новой папке
-    '''
+    """_summary_
+
+    Args:
+        name_class (str): _description_
+    """
     iterat = Iterator("dataset.csv", name_class)
     for elem in iterat:
         if elem != None:

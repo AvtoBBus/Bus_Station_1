@@ -1,6 +1,5 @@
 import os
 import csv
-from iterator import Iterator
 import get_way
 
 
