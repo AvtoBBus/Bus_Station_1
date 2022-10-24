@@ -17,24 +17,26 @@ def write_in_file(name_class: str, number: int) -> None:
         )
 
 
-def main():
+def main(folderpath: str) -> None:
     '''
     создание csv-файла
     поочерёдная запись в файл-аннотацию из папки download_data
     '''
+    num_files = len([f for f in os.listdir(folderpath + "/zebra")
+                     if os.path.isfile(os.path.join(folderpath + "/zebra", f))])
     with open("dataset.csv", "w", newline='') as file:
         printer = csv.writer(file, delimiter=";", )
         printer.writerow(["The Absolute Way", "Relative Way", "Class"])
-    for i in range(0, 1050):
+    for i in range(0, num_files):
         name_class = "zebra"
-        way = f"dataset/download_data/{name_class}/{str(i).zfill(4)}.jpg"
+        way = f"{folderpath}/{name_class}/{str(i).zfill(4)}.jpg"
         if os.path.isfile(way):
             write_in_file(name_class, i)
         name_class = "bay_horse"
-        way = f"dataset/download_data/{name_class}/{str(i).zfill(4)}.jpg"
+        way = f"{folderpath}/{name_class}/{str(i).zfill(4)}.jpg"
         if os.path.isfile(way):
             write_in_file(name_class, i)
 
 
 if __name__ == "__main__":
-    main()
+    main("dataset/download_data")

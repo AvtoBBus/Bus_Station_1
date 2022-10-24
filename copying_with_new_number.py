@@ -18,7 +18,7 @@ def create_annotation(name_class: str, number: int) -> None:
              name_class])
 
 
-def create_copy(name_class: str) -> None:
+def create_copy_of_dataset(name_class: str) -> None:
     '''
     создаёт копии в новой папке
     '''
@@ -42,10 +42,10 @@ def main():
         printer = csv.writer(file, delimiter=";")
         printer.writerow(["The Absolute Way", "Relative Way", "Class"])
 
-    create_copy("zebra")
-    create_copy("bay_horse")
+    create_copy_of_dataset("zebra")
+    create_copy_of_dataset("bay_horse")
 
 
 if __name__ == "__main__":
-    create_copy
+    create_copy_of_dataset
     main()
