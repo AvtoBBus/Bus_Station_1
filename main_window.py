@@ -1,8 +1,7 @@
-from cgitb import text
+from genericpath import isfile
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 from PyQt5.QtGui import QPixmap, QFont, QIcon
-from PyQt5.QtCore import Qt
 
 import sys
 import copying_to_another
@@ -16,9 +15,12 @@ class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
         self.iterat_zebra = iterator.Iterator("dataset.csv", "zebra")
-        self.iterat_bay_horse = iterator.Iterator("dataset.csv", "bay_horse")
-        self.folderpath_dataset = QtWidgets.QFileDialog.getExistingDirectory(
-            self, 'Please select folder of dataset')
+        self.iterat_bay_horse = iterator.Iterator(
+            "dataset.csv", "bay_horse")
+        self.folderpath_dataset = ""
+        while self.folderpath_dataset == "":
+            self.folderpath_dataset = QtWidgets.QFileDialog.getExistingDirectory(
+                self, 'Please select folder of dataset')
 
         self.font_in_label = QFont("Times", 12, QFont.Bold)
         self.x_size_label = 600
@@ -31,19 +33,15 @@ class Window(QMainWindow):
 
         self.label_folderpath_text = QLabel(self)
         self.label_folderpath_text.setFont(QFont("Times", 10))
-        if not self.folderpath_dataset == "":
-            self.label_folderpath_text.setText(
-                "Выбранный путь до dataset: " + self.folderpath_dataset)
-        else:
-            self.label_folderpath_text.setText(
-                "Выбранный путь до dataset: NONE")
+        self.label_folderpath_text.setText(
+            "Выбранный путь до dataset: " + self.folderpath_dataset)
         self.label_folderpath_text.setStyleSheet("color: rgb(200, 200, 200);")
         self.label_folderpath_text.adjustSize()
 
         self.info_text_label = QLabel(self)
         self.info_text_label.setFont(self.font_in_label)
 
-        self.setWindowTitle("Лапка 3 ПП")
+        self.setWindowTitle("Лапка 3")
         self.setFixedSize(1280, 720)
         self.move(320, 180)
 
@@ -114,27 +112,40 @@ class Window(QMainWindow):
 
     def next_zebra(self) -> None:
         self.info_text_label.clear()
-        self.elem = next(self.iterat_zebra)
-        while self.elem == None:
+        if os.path.isfile("dataset.csv"):
             self.elem = next(self.iterat_zebra)
-        if os.path.isfile(str(self.elem)):
-            self.label_img_zebra.clear()
-            self.label_img_zebra.setPixmap(QPixmap(str(self.elem)))
-            self.label_img_zebra.adjustSize()
-            self.label_img_zebra.move(670, 300)
-            self.label_img_zebra.show()
+            while self.elem == None:
+                self.elem = next(self.iterat_zebra)
+            if os.path.isfile(str(self.elem)):
+                self.label_img_zebra.clear()
+                self.label_img_zebra.setPixmap(QPixmap(str(self.elem)))
+                self.label_img_zebra.adjustSize()
+                self.label_img_zebra.move(670, 300)
+                self.label_img_zebra.show()
+        else:
+            self.info_text_label.setText(
+                "ERROR: DON'T FIND FILE 'dataset.csv'!")
+            self.info_text_label.move(0, 695)
+            self.info_text_label.adjustSize()
 
     def next_bay_horse(self) -> None:
         self.info_text_label.clear()
-        self.elem = next(self.iterat_bay_horse)
-        while self.elem == None:
+        if os.path.isfile("dataset.csv"):
+            self.elem = next(self.iterat_zebra)
             self.elem = next(self.iterat_bay_horse)
-        if os.path.isfile(str(self.elem)):
-            self.label_img_bay_horse.clear()
-            self.label_img_bay_horse.setPixmap(QPixmap(str(self.elem)))
-            self.label_img_bay_horse.adjustSize()
-            self.label_img_bay_horse.move(50, 300)
-            self.label_img_bay_horse.show()
+            while self.elem == None:
+                self.elem = next(self.iterat_bay_horse)
+            if os.path.isfile(str(self.elem)):
+                self.label_img_bay_horse.clear()
+                self.label_img_bay_horse.setPixmap(QPixmap(str(self.elem)))
+                self.label_img_bay_horse.adjustSize()
+                self.label_img_bay_horse.move(50, 300)
+                self.label_img_bay_horse.show()
+        else:
+            self.info_text_label.setText(
+                "ERROR: DON'T FIND FILE 'dataset.csv'!")
+            self.info_text_label.move(0, 695)
+            self.info_text_label.adjustSize()
 
     def create_annotation(self):
         create_csv.main(self.folderpath_dataset)
