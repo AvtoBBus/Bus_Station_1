@@ -2,18 +2,37 @@ from genericpath import isfile
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 from PyQt5.QtGui import QPixmap, QFont, QIcon
+from PyQt5.QtCore import QThread, QObject
 
 import sys
+
+from soupsieve import select
 import copying_to_another
 import copying_with_new_number
 import create_csv
 import iterator
 import os
+import typing
+
+
+class CreateDataset(QThread):
+    def __init__(self, parent: typing.Optional[QObject]) -> None:
+        super().__init__(parent)
+
+    def run(self):
+        copying_with_new_number.start_copy()
+        self.parent().info_text_label.setText(
+            "Finish create dataset with random numbers!")
+        self.parent().info_text_label.move(0, 695)
+        self.parent().info_text_label.adjustSize()
 
 
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
+
+        self.create_random_dataset_thread = CreateDataset(self)
+
         self.iterat_zebra = iterator.Iterator("dataset.csv", "zebra")
         self.iterat_bay_horse = iterator.Iterator(
             "dataset.csv", "bay_horse")
@@ -44,7 +63,6 @@ class Window(QMainWindow):
         self.setWindowTitle("Лапка 3")
         self.setFixedSize(1280, 720)
         self.move(320, 180)
-
         self.button_create_annotation = QtWidgets.QPushButton(self)
         self.button_create_annotation.setFont(self.font_in_label)
         self.button_create_annotation.setText(
@@ -147,21 +165,17 @@ class Window(QMainWindow):
             self.info_text_label.move(0, 695)
             self.info_text_label.adjustSize()
 
-    def create_annotation(self):
-        create_csv.main(self.folderpath_dataset)
+    def create_annotation(self) -> None:
+        create_csv.create_annotation(self.folderpath_dataset)
 
-    def create_another(self):
-        copying_to_another.main()
+    def create_another(self) -> None:
+        copying_to_another.start_copy()
         self.info_text_label.setText("Finish create another dataset!")
         self.info_text_label.move(0, 695)
         self.info_text_label.adjustSize()
 
-    def create_new_number(self):
-        copying_with_new_number.main()
-        self.info_text_label.setText(
-            "Finish create dataset with random numbers!")
-        self.info_text_label.move(0, 695)
-        self.info_text_label.adjustSize()
+    def create_new_number(self) -> None:
+        self.create_random_dataset_thread.start()
 
 
 def application():

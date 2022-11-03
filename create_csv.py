@@ -16,7 +16,7 @@ def write_in_file(name_class: str, number: int) -> None:
         )
 
 
-def main(folderpath: str) -> None:
+def create_annotation(folderpath: str) -> None:
     '''
     создание csv-файла
     поочерёдная запись в файл-аннотацию из папки download_data
@@ -38,4 +38,4 @@ def main(folderpath: str) -> None:
 
 
 if __name__ == "__main__":
-    main("dataset/download_data")
+    create_annotation("dataset/download_data")

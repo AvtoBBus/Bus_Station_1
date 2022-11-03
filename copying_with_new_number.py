@@ -34,8 +34,11 @@ def create_copy_of_dataset(name_class: str) -> None:
                 create_annotation(name_class, new_number)
 
 
-def main():
+def start_copy():
     if not os.path.isdir("dataset/dataset_number"):
+        os.mkdir("dataset/dataset_number")
+    else:
+        shutil.rmtree("dataset/dataset_number")
         os.mkdir("dataset/dataset_number")
 
     with open("dataset_number.csv", "w", newline='') as file:
@@ -48,4 +51,4 @@ def main():
 
 if __name__ == "__main__":
     create_copy_of_dataset
-    main()
+    start_copy()
