@@ -6,6 +6,26 @@ import os
 import random
 import numpy as np
 from matplotlib import pyplot as plt
+import multiprocessing
+import time
+
+
+def show_hist(color_and_name_color: list) -> None:
+    col = color_and_name_color[0]
+    name_color = color_and_name_color[1]
+
+    if name_color == "r":
+        plt.hist(col, color="red")
+        plt.title("Histogram of red color", color="red")
+    if name_color == "g":
+        plt.hist(col, color="green")
+        plt.title("Histogram of green color", color="green")
+    if name_color == "b":
+        plt.hist(col, color="blue")
+        plt.title("Histogram of blue color", color="blue")
+    plt.xlabel("Intensity")
+    plt.ylabel("Number of pixels")
+    plt.show()
 
 
 def create_histogram(input_df: pd.DataFrame, name_class: str) -> None:
@@ -15,6 +35,7 @@ def create_histogram(input_df: pd.DataFrame, name_class: str) -> None:
     abs_way = str(abs_way_list[random.randint(0, len(abs_way_list) - 1)])
     image = cv2.imdecode(np.fromfile(
         abs_way, dtype=np.uint8), cv2.IMREAD_COLOR)
+    cv2.imshow("Original image", image)
     color = ('b', 'g', 'r')
     for i, col in enumerate(color):
         histr = cv2.calcHist([image], [i], None, [256], [0, 256])
@@ -118,21 +139,14 @@ def start_create() -> None:
     print(first_sort_df["Number_of_chanel"].describe())
     list_of_color = create_histogram(df, input_nc)
 
-    i = 1
-    for col in list_of_color:
-        if i == 1:
-            plt.hist(col, color="red")
-            plt.title("Histogram of red color", color="red")
-        if i == 2:
-            plt.hist(col, color="green")
-            plt.title("Histogram of green color", color="green")
-        if i == 3:
-            plt.hist(col, color="blue")
-            plt.title("Histogram of blue color")
-        i += 1
-        plt.xlabel("Intensity")
-        plt.ylabel("Number of pixels")
-        plt.show()
+    list_arg = [
+        (list_of_color[0], 'r'),
+        (list_of_color[1], 'g'),
+        (list_of_color[2], 'b')
+    ]
+
+    with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
+        p.map(show_hist, list_arg)
 
 
 if __name__ == "__main__":
