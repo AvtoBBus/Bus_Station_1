@@ -7,10 +7,13 @@ import random
 import numpy as np
 from matplotlib import pyplot as plt
 import multiprocessing
-import time
 
 
 def show_hist(color_and_name_color: list) -> None:
+    '''
+    формирование гистограммы для определённого цвета
+    Входные данные в формате кортежа или списка: (данные_о_цвете, имя_цвета{r, g, b})
+    '''
     col = color_and_name_color[0]
     name_color = color_and_name_color[1]
 
@@ -29,6 +32,10 @@ def show_hist(color_and_name_color: list) -> None:
 
 
 def create_histogram(input_df: pd.DataFrame, name_class: str) -> None:
+    '''
+    Создание и вывод гистограммы по случайно выбранной картинке
+    Вывод выбранной фотографии
+    '''
     result = [[], [], []]
     abs_way_list = filter_by_class_name(input_df, name_class)[
         "The_Absolute_way"].tolist()
@@ -47,6 +54,9 @@ def create_histogram(input_df: pd.DataFrame, name_class: str) -> None:
 
 
 def read_csv(way_to_file: str, number_of_cell: int) -> list:
+    '''
+    Считавание колонки под номером number_of_cell в файле с путём way_to_file
+    '''
     read_list = []
     file = open(way_to_file, "r", encoding="utf-8")
     reader = csv.reader(file, delimiter="\t")
@@ -60,6 +70,9 @@ def read_csv(way_to_file: str, number_of_cell: int) -> list:
 
 
 def filter_by_class_name(input_df: pd.DataFrame, name_class: str) -> pd.DataFrame:
+    '''
+    Фильтрация по имени класса
+    '''
     mask = (input_df.Class == name_class)
     new_df = (input_df[mask])
     return new_df
@@ -67,6 +80,7 @@ def filter_by_class_name(input_df: pd.DataFrame, name_class: str) -> pd.DataFram
 
 def filter_by_size(input_df: pd.DataFrame, value: int, w_or_h: bool) -> pd.DataFrame:
     '''
+    Сортировка dataframe по заданному значению высоты или ширины изоюражений
     if sort parameter = width => w_or_h = True, else w_or_h = False
     '''
     if w_or_h:
@@ -78,6 +92,9 @@ def filter_by_size(input_df: pd.DataFrame, value: int, w_or_h: bool) -> pd.DataF
 
 
 def start_create() -> None:
+    '''
+    Основная функция создания всего dataframe, а также выполнение сортировки и вывода гистограмм
+    '''
     list_abs_way = read_csv("dataset.csv", 1)
     list_name_class = read_csv("dataset.csv", 2)
     list_bin = ["Num_point"]
@@ -119,10 +136,14 @@ def start_create() -> None:
     )
     print(df)
     print("\n\n\n\n\n")
-    print("Input name class->", end='')
-    input_nc = input()
-    os.system('cls')
-    print(filter_by_class_name(df, input_nc))
+    start = False
+    while not start:
+        print("Input name class->", end='')
+        input_nc = input()
+        os.system('cls')
+        if input_nc in list_name_class:
+            start = True
+            print(filter_by_class_name(df, input_nc))
 
     print("\n\n\n\n\n")
     print("Input width->", end='')
