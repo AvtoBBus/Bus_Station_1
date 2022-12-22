@@ -19,7 +19,7 @@ import help_defenition as hd
 import My_Classes as mc
 
 
-def start():
+def start_hacking():
     lr = 0.001
     batch_size = 100
     epochs = 10
@@ -84,6 +84,48 @@ def start():
     model = mc.My_Cnn().to(device)
     model.train()
 
+    optimizer = optim.Adam(params=model.parameters(), lr=0.001)
+    criterion = nn.CrossEntropyLoss()
+
+    for epoch in range(epochs):
+        epoch_loss = 0
+        epoch_accuracy = 0
+
+        for data, label in loader_train:
+            data = data.to(device)
+            label = label.to(device)
+
+            output = model(data)
+            loss = criterion(output, label)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            acc = ((output.argmax(dim=1) == label).float().mean())
+            epoch_accuracy += acc/len(loader_train)
+            epoch_loss += loss/len(loader_train)
+
+        print(
+            f'Epoch : {epoch+1}, train accuracy : {epoch_accuracy}, train loss : {epoch_loss}')
+
+        with torch.no_grad():
+            epoch_val_accuracy = 0
+            epoch_val_loss = 0
+            for data, label in loader_valid:
+                data = data.to(device)
+                label = label.to(device)
+
+                val_output = model(data)
+                val_loss = criterion(val_output, label)
+
+                acc = ((val_output.argmax(dim=1) == label).float().mean())
+                epoch_val_accuracy += acc / len(loader_valid)
+                epoch_val_loss += val_loss / len(loader_valid)
+
+            print(
+                f'Epoch : {epoch+1}, val_accuracy : {epoch_val_accuracy}, val_loss : {epoch_val_loss}')
+
 
 if __name__ == "__main__":
-    start()
+    start_hacking()

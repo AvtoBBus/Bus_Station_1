@@ -13,7 +13,7 @@ class My_Dataset(torch.utils.data.Dataset):
         return self.file_list_len
 
     def __getitem__(self, index: int):
-        way_to_file = self.file_list[index]
+        way_to_file = "data/train/" + str(self.file_list[index])
         img = Image.open(way_to_file)
         img_transformed = self.transform
 
