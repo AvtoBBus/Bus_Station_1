@@ -16,19 +16,7 @@ import zipfile
 import shutil
 import transform_info as ti
 import help_defenition as hd
-
-
-class My_Dataset(torch.utils.data.Dataset):
-    def __init__(self, file_list, transform=None):
-        self.file_list = file_list
-        self.transform = transform
-        self.file_list_len = len(self.file_list)
-
-    def __len__(self) -> int:
-        return self.file_list_len
-
-    def __getitem__(self, index: int):
-        pass
+import My_Classes as mc
 
 
 def start():
@@ -82,9 +70,19 @@ def start():
         num_of_img += 1
     plt.show()
 
-    myds_train = My_Dataset(list_train, ti.train_transforms)
-    myds_test = My_Dataset(list_test, ti.test_transforms)
-    myds_valid = My_Dataset(list_validation, ti.validation_transforms)
+    myds_train = mc.My_Dataset(list_train, ti.train_transforms)
+    myds_test = mc.My_Dataset(list_test, ti.test_transforms)
+    myds_valid = mc.My_Dataset(list_validation, ti.validation_transforms)
+
+    loader_train = torch.utils.data.DataLoader(
+        dataset=myds_train, batch_size=batch_size, shuffle=True)
+    loader_test = torch.utils.data.DataLoader(
+        dataset=myds_test, batch_size=batch_size, shuffle=True)
+    loader_valid = torch.utils.data.DataLoader(
+        dataset=myds_valid, batch_size=batch_size, shuffle=True)
+
+    model = mc.My_Cnn().to(device)
+    model.train()
 
 
 if __name__ == "__main__":
