@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from torchvision import datasets, models, transforms
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
+from sklearn.model_selection import train_test_split
 
 import numpy as np
 import pandas as pd
@@ -47,14 +48,14 @@ def start_hacking():
 
     list_train = os.listdir('data/train')
     list_test = list_train[:100] + list_train[-100:]
-    hd.del_n_elem(list_train, 100)
-    list_validation = list_train[:100] + list_train[-100:]
     hd.del_n_elem(list_train, 150)
+    list_validation = []
 
     for elem in list_test:
         shutil.move("data/train/" + str(elem), "data/test")
-    for elem in list_validation:
-        shutil.move("data/train/" + str(elem), "data/validation")
+
+    list_train, list_validation = train_test_split(
+        list_train, test_size=1/9)
 
     list_rand_index = []
     hd.generate_mas(list_rand_index, 1, len(list_train) / 2, 5)
@@ -80,6 +81,10 @@ def start_hacking():
         dataset=myds_test, batch_size=batch_size, shuffle=True)
     loader_valid = torch.utils.data.DataLoader(
         dataset=myds_valid, batch_size=batch_size, shuffle=True)
+
+    # print(myds_train[0][0])
+    # print(loader_train.dataset[0][0])
+    # print(len(myds_train), len(loader_train))
 
     model = mc.My_Cnn().to(device)
     model.train()
@@ -125,6 +130,15 @@ def start_hacking():
 
             print(
                 f'Epoch : {epoch+1}, val_accuracy : {epoch_val_accuracy}, val_loss : {epoch_val_loss}')
+
+    # zebra_probs = []
+    # model.eval()
+    # with torch.no_grad():
+    #     for data, fileid in loader_test:
+    #         data = data.to(device)
+    #         preds = model(data)
+    #         preds_list = F.softmax(preds, dim=1)[:, 1].tolist()
+    #         zebra_probs += list(zip(list(fileid), preds_list))
 
 
 if __name__ == "__main__":
